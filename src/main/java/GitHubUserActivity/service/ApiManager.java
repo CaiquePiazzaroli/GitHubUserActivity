@@ -37,15 +37,15 @@ public class ApiManager {
             if (response.statusCode() == 200) {
                 return response.body();
             } else if (response.statusCode() == 404) {
-                System.out.println("Usuário não encontrado no GitHub.");
+                System.out.println("User not found.");
                 return null;
             } else {
-                System.out.println("Erro na API. Código HTTP: " + response.statusCode());
+                System.out.println("Api Error. HTTP code: " + response.statusCode());
                 return null;
             }
 
         } catch (Exception e) {
-            System.out.println("Erro de conexão!");
+            System.out.println("Connection Error!");
             return null;
         }
     }
