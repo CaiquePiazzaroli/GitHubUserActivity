@@ -51,11 +51,8 @@ public class ApiManager {
     }
 
     private List<Event> parseApiData(String json) {
-        // Parsear o JSON e retornar uma lista de Eventos
-        // Utilizar GSON
         List<Event> events = new ArrayList<>();
         System.out.println("Json: " + json);
         return events;
     }
-
 }
