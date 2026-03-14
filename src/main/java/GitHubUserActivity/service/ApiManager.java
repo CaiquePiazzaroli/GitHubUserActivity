@@ -1,6 +1,10 @@
 package GitHubUserActivity.service;
 
 import GitHubUserActivity.model.Event;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -12,7 +16,6 @@ import java.util.List;
 public class ApiManager {
 
     public List<Event> getUsernameActivity(String username) {
-        // Retornar lista de eventos do usuario
         String json = fetchApiData(username);
 
         if (json == null) {
@@ -52,7 +55,11 @@ public class ApiManager {
 
     private List<Event> parseApiData(String json) {
         List<Event> events = new ArrayList<>();
-        System.out.println("Json: " + json);
+        Gson gson = new Gson();
+        JsonArray jsonArray = JsonParser.parseString(json).getAsJsonArray();
+        for (JsonElement element : jsonArray) {
+            events.add(gson.fromJson(element, Event.class));
+        }
         return events;
     }
 }

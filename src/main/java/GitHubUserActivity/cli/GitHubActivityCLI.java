@@ -25,12 +25,10 @@ public class GitHubActivityCLI {
             System.out.println("Muitos argumentos fornecidos. Esperado: 1. Recebido: " + args.length);
             return false;
         }
-
         if (getUsername(args) == null) {
             System.out.println("Poucos argumentos fornecidos. Esperado: 1. Recebido: " + args.length);
             return false;
         }
-
         return true;
     }
 
