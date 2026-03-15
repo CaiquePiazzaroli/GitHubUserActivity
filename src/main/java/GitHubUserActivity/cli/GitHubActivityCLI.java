@@ -6,6 +6,7 @@ import GitHubUserActivity.service.ApiManager;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 
 public class GitHubActivityCLI {
@@ -46,7 +47,31 @@ public class GitHubActivityCLI {
 
     private void getUsernameActivity(String username) {
         List<Event> events =  apiManager.getUsernameActivity(username);
+
         if(events.isEmpty()) return;
+
+        Map<String, Map<String, Integer>> eventsDescription = new TreeMap<>();
+
+        for(Event event: events) {
+            String eventType = event.getType();
+            String repoName = event.getRepo().get("name");
+
+            boolean typeAlreadyExists = eventsDescription.containsKey(eventType);
+            if(!typeAlreadyExists) {
+                eventsDescription.put(eventType, new TreeMap<String, Integer>());
+            }
+
+            boolean repoAlreadyExists = eventsDescription.get(eventType).containsKey(repoName);
+            if(!repoAlreadyExists) {
+                eventsDescription.get(eventType).put(repoName, 0);
+            }
+
+            int eventCount = eventsDescription.get(eventType).get(repoName) + 1;
+            eventsDescription.get(eventType).put(repoName, eventCount);
+        }
+
+        System.out.println(eventsDescription);
+
     }
 
     private int getEventCount(List<Event> events, String eventDescription) {
