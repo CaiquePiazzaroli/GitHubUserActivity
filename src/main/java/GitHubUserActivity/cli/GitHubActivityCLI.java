@@ -1,6 +1,11 @@
 package GitHubUserActivity.cli;
 
+import GitHubUserActivity.model.Event;
 import GitHubUserActivity.service.ApiManager;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class GitHubActivityCLI {
@@ -40,6 +45,17 @@ public class GitHubActivityCLI {
     }
 
     private void getUsernameActivity(String username) {
-        System.out.println(apiManager.getUsernameActivity(username));
+        List<Event> events =  apiManager.getUsernameActivity(username);
+        if(events.isEmpty()) return;
     }
+
+    private int getEventCount(List<Event> events, String eventDescription) {
+        int eventCount = 0;
+        for(Event e: events) {
+            if(e.getType().equals(eventDescription)) eventCount++;
+        }
+        return eventCount;
+    }
+
+    
 }

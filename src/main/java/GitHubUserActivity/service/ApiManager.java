@@ -17,7 +17,6 @@ public class ApiManager {
 
     public List<Event> getUsernameActivity(String username) {
         String json = fetchApiData(username);
-
         if (json == null) {
             return new ArrayList<>();
         }
