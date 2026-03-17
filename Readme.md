@@ -1,6 +1,5 @@
 # Git Hub Activity CLI
-REP URL: https://github.com/CaiquePiazzaroli/GitHubUserActivity
-
+URL: https://roadmap.sh/projects/github-user-activity
 
 # Use Case and Class Diagram
 ![gitHubUserActivity.jpg](gitHubUserActivity.jpg)
