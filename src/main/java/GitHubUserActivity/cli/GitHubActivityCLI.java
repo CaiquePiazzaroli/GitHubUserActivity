@@ -3,7 +3,6 @@ package GitHubUserActivity.cli;
 import GitHubUserActivity.model.Event;
 import GitHubUserActivity.service.ApiManager;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -23,7 +22,7 @@ public class GitHubActivityCLI {
             return;
         }
         String username = cli.getUsername(args);
-        cli.getUsernameActivity(username);
+        cli.getUserActivity(username);
     }
 
     private boolean checkArgs(String[] args) {
@@ -45,10 +44,10 @@ public class GitHubActivityCLI {
         return null;
     }
 
-    private void getUsernameActivity(String username) {
+    private Map<String, Map<String, Integer>> getUsernameActivity(String username) {
         List<Event> events =  apiManager.getUsernameActivity(username);
 
-        if(events.isEmpty()) return;
+        if(events.isEmpty()) return null;
 
         Map<String, Map<String, Integer>> eventsDescription = new TreeMap<>();
 
@@ -68,19 +67,50 @@ public class GitHubActivityCLI {
 
             int eventCount = eventsDescription.get(eventType).get(repoName) + 1;
             eventsDescription.get(eventType).put(repoName, eventCount);
-        }
+        };
 
-        System.out.println(eventsDescription);
-
+        return eventsDescription;
     }
 
-    private int getEventCount(List<Event> events, String eventDescription) {
-        int eventCount = 0;
-        for(Event e: events) {
-            if(e.getType().equals(eventDescription)) eventCount++;
-        }
-        return eventCount;
+    public void getUserActivity(String username) {
+        Map<String, Map<String, Integer>> userActivity = getUsernameActivity(username);
+
+        userActivity.forEach((eventType, eventMap) -> {
+            switch (eventType) {
+                case "CreateEvent":
+                    showCreateEvents(eventMap);
+                    break;
+                case "PushEvent":
+                    showPushEvents(eventMap);
+                    break;
+                case "WatchEvent":
+                    showWatchEvents(eventMap);
+                    break;
+                default:
+                    System.out.println("Event " + eventType + " not found!");
+            }
+        });
     }
 
-    
+    private void showCreateEvents(Map<String, Integer> createEvents) {
+        System.out.println("Create Events: ");
+        for(String eventDesc: createEvents.keySet()) {
+            System.out.println("Create a repository " + eventDesc);
+        }
+    }
+
+    private void showPushEvents(Map<String, Integer> pushEvents) {
+        System.out.println("Push Events: ");
+        pushEvents.forEach((eventDesc, quantity) -> {
+            System.out.println("Pushed " + quantity + " commits to " + eventDesc + " repository");
+        });
+    }
+
+    private void showWatchEvents(Map<String, Integer> watchEvents) {
+        System.out.println("Watch Events: ");
+
+        for(String eventDesc: watchEvents.keySet()) {
+            System.out.println("Starred  " + eventDesc);
+        }
+    }
 }
