@@ -1,1 +1,6 @@
-![use-case-class-diagrams.png](use-case-class-diagrams.png)
+# Git Hub Activity CLI
+REP URL: https://github.com/CaiquePiazzaroli/GitHubUserActivity
+
+
+# Use Case and Class Diagram
+![gitHubUserActivity.jpg](gitHubUserActivity.jpg)

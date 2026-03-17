@@ -22,16 +22,16 @@ public class GitHubActivityCLI {
             return;
         }
         String username = cli.getUsername(args);
-        cli.getUserActivity(username);
+        cli.showUserActivity(username);
     }
 
     private boolean checkArgs(String[] args) {
         if (args.length > 1) {
-            System.out.println("Muitos argumentos fornecidos. Esperado: 1. Recebido: " + args.length);
+            System.out.println("Too many arguments. Expected: 1. Received: " + args.length);
             return false;
         }
         if (getUsername(args) == null) {
-            System.out.println("Poucos argumentos fornecidos. Esperado: 1. Recebido: " + args.length);
+            System.out.println("Too many arguments. Expected: 1. Received: " + args.length);
             return false;
         }
         return true;
@@ -72,7 +72,7 @@ public class GitHubActivityCLI {
         return eventsDescription;
     }
 
-    public void getUserActivity(String username) {
+    public void showUserActivity(String username) {
         Map<String, Map<String, Integer>> userActivity = getUsernameActivity(username);
 
         userActivity.forEach((eventType, eventMap) -> {
